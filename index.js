@@ -22,19 +22,49 @@ function formatDate(date) {
   
     return `${day} ${hours}:${minutes}`;
   }
+
+  function showForecast(){
+    let forecastElement = document.querySelector("#weather-forecast");
+
+    let forecastHTML = `<div class="row">`;
+    let days = ["Thu", "Fri", "Sat", "Sun"];
+    days.forEach(function (day){
+    forecastHTML = 
+    forecastHTML +  `
+    
+    <div class="col-2">
+        <div class="weather-forecast-date" id="weather-forecast-date">${day}</div>
+        <img
+          src="http://openweathermap.org/img/wn/50d@2x.png"
+          alt=""
+          width="42"
+        />
+        <div class="weather-forecast-temperatures">
+          <span class="weather-forecast-temperature-max"> 18° </span>
+          <span class="weather-forecast-temperature-min"> 12° </span>
+        </div>
+    </div>
+`;
+  });
+  forecastHTML = forecastHTML + `</div>`;
+  forecastElement.innerHTML = forecastHTML;
+}
   
   function showWeather(response) {
     document.querySelector("#city").innerHTML = response.data.name;
     document.querySelector("#temperature").innerHTML = Math.round(
-      response.data.main.temp
-    );
-  
+    response.data.main.temp);
     document.querySelector("#humidity").innerHTML = response.data.main.humidity;
     document.querySelector("#wind").innerHTML = Math.round(
-      response.data.wind.speed
-    );
+    response.data.wind.speed);
     document.querySelector("#description").innerHTML =
-      response.data.weather[0].main;
+    response.data.weather[0].main;
+    document.querySelector("#icon").setAttribute(
+        "src",
+    `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
+  );
+  iconElement.setAttribute("alt", response.data.weather[0].description);
+    
   }
   
   function searchCity(city) {
@@ -72,6 +102,8 @@ function formatDate(date) {
   
   let currentLocationButton = document.querySelector("#current-location-button");
   currentLocationButton.addEventListener("click", getCurrentLocation);
+  let iconElement = document.querySelector ("#icon");
   
   searchCity("Kyiv");
+  showForecast();
   
